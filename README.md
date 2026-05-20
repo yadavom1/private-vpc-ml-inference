@@ -29,16 +29,55 @@ TypeScript Worker (Private VM) → Handles RPC forwarding / auxiliary processing
 │ Private Subnet   │   │ Private Subnet   │   │ Worker Scaling   │
 └──────────────────┘   └──────────────────┘   └──────────────────┘
 ```
-# 🌐 Network Design
+## 🧰 Tools Used
 
--VPC CIDR: 10.0.0.0/16
--Public Subnet:
-  1. API Gateway VM only
-  2. Has Internet Gateway access
--Private Subnet:
-  1. Python Worker VM
-  2. TypeScript Worker VM
-  3. No public IP assigned
+| Layer | Technology |
+|------|-----------|
+| Infrastructure | Terraform |
+| Cloud | AWS (EC2, VPC) |
+| API | FastAPI / Node.js |
+| Workers | Python + TypeScript |
+| Communication | RPC |
+| Provisioning | Bash + systemd |
+
+## 🎯 Purpose
+
+This project demonstrates a real-world distributed inference architecture using:
+- Multi-VM deployment
+- Private networking (VPC)
+- RPC-based service communication
+- Infrastructure as Code (Terraform)
+
+## 🔄 End-to-End Flow
+
+1. Client sends HTTP request
+2. API Gateway receives request
+3. API forwards request to Python Worker via RPC
+4. Python Worker processes inference
+5. Optional call to TypeScript Worker
+6. Response flows back to API Gateway
+7. API Gateway returns JSON response
+
+## 🚀 Future Improvements
+
+- Add Auto Scaling Groups for workers
+- Introduce message queue (SQS/Kafka)
+- Add centralized monitoring (Prometheus/Grafana)
+- Replace static IPs with service discovery
+- Add TLS encryption for RPC communication
+
+## 🌐 Network Design
+
+- VPC CIDR: 10.0.0.0/16
+
+### Public Subnet
+- API Gateway VM only  
+- Has Internet Gateway access  
+
+### Private Subnet
+- Python Worker VM  
+- TypeScript Worker VM  
+- No public IP assigned  
 
 # ⚙️ Tech Stack
 
@@ -49,12 +88,12 @@ TypeScript Worker (Private VM) → Handles RPC forwarding / auxiliary processing
 -Communication: RPC (internal VPC networking)
 -Provisioning: Bash + systemd services     
 
-# 🚀 Deployment Instructions
+## 🚀 Deployment Instructions
 
-**1. Clone Repository**
- ```
-   git clone <repo-url>
-   cd quickstart-devops-assignment
+### 1. Clone Repository
+```
+git clone <repo-url>
+cd quickstart-devops-assignment
 ```
 **2. Initialize Infrastructure**
 ```
@@ -170,7 +209,6 @@ Response:
   "status": "ok"
 }
 
-Evaluators LOVE this.
 ```
 ## ⚠️ Deployment Safety
 ```
